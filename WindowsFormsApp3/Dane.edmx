@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DaneModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Partia">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="graczW" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="graczB" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="data" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Ruchy">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id_partii" Type="int" Nullable="false" />
+          <Property Name="nr_ruchu" Type="int" Nullable="false" />
+          <Property Name="skad" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="dokad" Type="nchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Ruchy_Partia">
+          <End Role="Partia" Type="Self.Partia" Multiplicity="1" />
+          <End Role="Ruchy" Type="Self.Ruchy" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Partia">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Ruchy">
+              <PropertyRef Name="Id_partii" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DaneModelStoreContainer">
+          <EntitySet Name="Partia" EntityType="Self.Partia" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ruchy" EntityType="Self.Ruchy" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Ruchy_Partia" Association="Self.FK_Ruchy_Partia">
+            <End Role="Partia" EntitySet="Partia" />
+            <End Role="Ruchy" EntitySet="Ruchy" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DaneModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Partia">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="graczW" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="graczB" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="data" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Ruchy" Relationship="Self.FK_Ruchy_Partia" FromRole="Partia" ToRole="Ruchy" />
+        </EntityType>
+        <EntityType Name="Ruchy">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Id_partii" Type="Int32" Nullable="false" />
+          <Property Name="nr_ruchu" Type="Int32" Nullable="false" />
+          <Property Name="skad" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="dokad" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Partia" Relationship="Self.FK_Ruchy_Partia" FromRole="Ruchy" ToRole="Partia" />
+        </EntityType>
+        <Association Name="FK_Ruchy_Partia">
+          <End Role="Partia" Type="Self.Partia" Multiplicity="1" />
+          <End Role="Ruchy" Type="Self.Ruchy" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Partia">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Ruchy">
+              <PropertyRef Name="Id_partii" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DaneEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Partia" EntityType="Self.Partia" />
+          <EntitySet Name="Ruchy" EntityType="Self.Ruchy" />
+          <AssociationSet Name="FK_Ruchy_Partia" Association="Self.FK_Ruchy_Partia">
+            <End Role="Partia" EntitySet="Partia" />
+            <End Role="Ruchy" EntitySet="Ruchy" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DaneModelStoreContainer" CdmEntityContainer="DaneEntities">
+          <EntitySetMapping Name="Partia">
+            <EntityTypeMapping TypeName="DaneModel.Partia">
+              <MappingFragment StoreEntitySet="Partia">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="graczW" ColumnName="graczW" />
+                <ScalarProperty Name="graczB" ColumnName="graczB" />
+                <ScalarProperty Name="data" ColumnName="data" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ruchy">
+            <EntityTypeMapping TypeName="DaneModel.Ruchy">
+              <MappingFragment StoreEntitySet="Ruchy">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Id_partii" ColumnName="Id_partii" />
+                <ScalarProperty Name="nr_ruchu" ColumnName="nr_ruchu" />
+                <ScalarProperty Name="skad" ColumnName="skad" />
+                <ScalarProperty Name="dokad" ColumnName="dokad" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
